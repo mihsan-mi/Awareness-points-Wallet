@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CITIZEN_V4.2 // INTERLOCK_ASSEMBLY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@800;900&family=JetBrains+Mono:wght@800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-frame" id="app-frame">
+        
+        <!-- BOOT -->
+        <div id="boot-overlay" class="overlay" style="position:absolute; inset:0; z-index:9000; background:var(--assembly-neon); display:flex; flex-direction:column; align-items:center; justify-content:center; transition:transform 0.5s steps(5);">
+            <div style="font-size:5.5rem; font-weight:900; letter-spacing:-6px; text-transform:uppercase; color:#000;">CITIZEN</div>
+            <div style="width:200px; height:8px; background:#000; margin-top:40px; overflow:hidden;">
+                <div id="boot-bar" style="height:100%; width:0%; background:var(--assembly-magenta); transition:width 0.1s;"></div>
+            </div>
+            <div style="margin-top:20px; font-family:var(--font-mono); font-size:0.7rem; font-weight:900; color:#000;">VERIFYING_IRIS_P2P...</div>
+        </div>
+
+        <main class="block-stack" id="main-content" style="padding-top: 30px; padding-bottom: 60px;">
+            
+            <!-- SHARD 1: HEADER -->
+            <section class="notched-block shard-header">
+                <span class="corner-meta meta-tl">CITIZEN_V4.2.1</span>
+                <span class="corner-meta meta-tr" id="ledger-sync-val">LEDGER_SYNC: 100%</span>
+                <div class="logo">TERMINAL_//_RADAR</div>
+                <h1>WELCOME,<br>BEN_04</h1>
+                <div class="notch-join" style="background:var(--assembly-neon);"></div>
+            </section>
+
+            <!-- SHARD 2: AP WELL -->
+            <section class="notched-block shard-ap" id="ap-shard">
+                <div class="notch-socket"></div>
+                <span class="corner-meta meta-tl">CURRENT_YIELD (AP)</span>
+                <span class="corner-meta meta-tr" id="quota-val">QUOTA: VALID_//_100%</span>
+                <div class="ap-val blurred" id="score-text">2,240<span class="ap-unit">AP</span></div>
+                <div style="display:flex; justify-content:space-between; width:100%; margin-top:25px; padding:0 10px;">
+                    <div><div class="corner-meta" style="position:static; opacity:0.6;">TARGET</div><div style="font-size:0.9rem; font-weight:900;">6.00 AP</div></div>
+                    <div style="text-align:right;"><div class="corner-meta" style="position:static; opacity:0.6;">TREND</div><div style="font-size:0.9rem; font-weight:900; color:var(--assembly-magenta);">▲ 52.1 pts</div></div>
+                </div>
+                <div class="notch-join" style="background:var(--assembly-cyan);"></div>
+            </section>
+
+            <!-- SHARD 3: ACTIONS -->
+            <section class="notched-block shard-actions">
+                <div class="notch-socket"></div>
+                <div class="mini-card" id="btn-show-finance" style="border-right:1px solid rgba(0,0,0,0.1);">
+                    <span class="tag-heavy">FIN_FEEDS</span>
+                    <div class="flipper-box" id="flipper-track"><!-- Dynamic Slides --></div>
+                </div>
+                <div class="mini-card" id="btn-show-growth" style="background:var(--assembly-magenta); color:#FFF;">
+                    <span class="tag-heavy" style="color:#FFF; opacity:0.8;">GROWTH_RATE</span>
+                    <div style="font-size:1.8rem; font-weight:900; line-height:0.9;">+18.5%</div>
+                    <svg viewBox="0 0 160 30" style="width:100%; height:25px; stroke:#FFF; stroke-width:5; fill:none; margin-top:5px;"><path d="M0,25 L40,20 L80,28 L120,5 L160,10"/></svg>
+                </div>
+                <div class="notch-join" style="background:#FFF;"></div>
+            </section>
+
+            <!-- SHARD 4: THREATS -->
+            <section class="notched-block shard-threats" id="threat-shard">
+                <div class="notch-socket"></div>
+                <h2 style="font-size:3rem; letter-spacing:-4px; line-height:0.7; margin-bottom:5px;">SYSTEM_<br>THREATS</h2>
+                <div class="ribbon-list" id="alert-ribbon"><!-- Circles --></div>
+            </section>
+
+            <!-- SHARD 5: SIGNALS -->
+            <section class="notched-block shard-signals">
+                <div class="signal-shard">
+                    <div>
+                        <div class="corner-meta" style="position:static;">SIG_4492</div>
+                        <div style="font-weight:900; font-size:1.2rem;">PIPE_PROFIT</div>
+                    </div>
+                    <div style="font-family:var(--font-heavy); font-size:1.4rem; color:var(--assembly-magenta);">+13.0</div>
+                </div>
+                <div class="signal-shard" style="background:var(--assembly-cyan); border-color:#000;">
+                    <div>
+                        <div class="corner-meta" style="position:static;">SIG_4493</div>
+                        <div style="font-weight:900; font-size:1.2rem;">DEBT_CLEARED</div>
+                    </div>
+                    <div style="font-family:var(--font-heavy); font-size:1.4rem;">-52.1</div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- UI COMPONENTS -->
+        <div id="dimmer" class="dimmer"></div>
+
+        <div class="brutal-drawer" id="draw-finance">
+            <header class="drawer-h">
+                <span class="drawer-t">FINANCIALS_</span>
+                <button style="font-weight:900; font-size:2rem; cursor:pointer;" onclick="closeAll()">[X]</button>
+            </header>
+            <div class="drawer-body" id="finance-ledger"></div>
+            <button class="brutal-btn" style="margin:20px; width:auto;" id="trigger-deploy-modal">DEPLOY_NODE</button>
+        </div>
+
+        <div class="brutal-drawer" id="draw-alert-view">
+            <header class="drawer-h">
+                <span class="drawer-t">ALRT_VIEW_</span>
+                <button style="font-weight:900; font-size:2rem; cursor:pointer;" onclick="closeAll()">[X]</button>
+            </header>
+            <div class="drawer-body">
+                <div id="alert-head" style="font-size:2.5rem; font-weight:900; color:var(--assembly-magenta); margin-bottom:15px; letter-spacing:-2px; line-height:0.9;">SYSTEM_BREACH</div>
+                <div id="alert-body" style="font-size:1.2rem; font-weight:900; color:#BBB;">PROTOCOL FAIL IN SECTOR 4 PIPE. AUTHENTICATE...</div>
+            </div>
+        </div>
+
+        <div class="brutal-drawer" id="draw-growth" style="border-color: var(--assembly-magenta);">
+            <header class="drawer-h">
+                <span class="drawer-t">ANALYTICS_</span>
+                <button style="font-weight:900; font-size:2rem; cursor:pointer;" onclick="closeAll()">[X]</button>
+            </header>
+            <div class="drawer-body" style="padding: 20px;">
+                <div style="font-size: 0.7rem; opacity: 0.5; margin-bottom: 5px;">SELECT_TIMESCALE:</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 25px;">
+                    <button class="brutal-btn timeframe-btn active" data-time="LIFE" style="height: 40px; font-size: 0.7rem; background: var(--assembly-magenta);">LIFE_TIME</button>
+                    <button class="brutal-btn timeframe-btn" data-time="YEAR" style="height: 40px; font-size: 0.7rem; background: #222;">YEAR</button>
+                    <button class="brutal-btn timeframe-btn" data-time="MONTH" style="height: 40px; font-size: 0.7rem; background: #222;">MONTH</button>
+                    <button class="brutal-btn timeframe-btn" data-time="WEEK" style="height: 40px; font-size: 0.7rem; background: #222;">WEEK</button>
+                    <button class="brutal-btn timeframe-btn" data-time="DAY" style="height: 40px; font-size: 0.7rem; background: #222;">DAY</button>
+                </div>
+
+                <div style="background: #111; padding: 25px; border: 2px solid var(--assembly-magenta); position: relative;">
+                    <div id="target-legend" style="position: absolute; top: 10px; right: 20px; font-size: 0.55rem; color: var(--assembly-neon); font-weight: 900; display: none;">-- DEBT_PAYOFF_TARGET</div>
+                    <div id="growth-label" style="font-size: 0.7rem; color: var(--assembly-magenta); font-weight: 900;">YIELD_TREND // LIFE_TIME</div>
+                    <div id="growth-value" style="font-size: 4rem; font-weight: 900; letter-spacing: -4px;">+18.5%</div>
+                    
+                    <div style="height: 150px; margin-top: 20px; position: relative; border-left: 2px solid #333; border-bottom: 2px solid #333;">
+                        <svg viewBox="0 0 300 150" style="width: 100%; height: 100%; overflow: visible;">
+                            <path id="growth-chart-target" d="M0,80 L300,80" fill="none" stroke="var(--assembly-neon)" stroke-width="2" stroke-dasharray="6,4" style="display:none;" />
+                            <path id="growth-chart-path" d="M0,140 C20,10 60,10 80,40 C100,80 120,130 150,135 C200,135 250,120 300,100" fill="none" stroke="var(--assembly-magenta)" stroke-width="6" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODALS -->
+        <div class="modal" id="mod-delete">
+            <div class="brutal-modal" style="background:var(--assembly-magenta);">
+                <div class="drawer-t" style="margin-bottom:20px; color:#FFF;">VOID_CREDENTIAL</div>
+                <div id="delete-meta" style="font-weight:900; font-size:1.2rem; margin-bottom:30px;">LEDGER_ENTRY: [NULL]</div>
+                <div id="delete-scan" style="display:none; height:10px; background:#000; margin-bottom:30px;">
+                    <div id="delete-bar" style="height:100%; width:0%; background:#FFF;"></div>
+                </div>
+                <button class="brutal-btn" id="btn-confirm-delete" style="background:#FFF; color:#000;">CONFIRM_VOID</button>
+                <button style="width:100%; margin-top:15px; font-weight:900; border:none; background:none; color:#FFF; cursor:pointer;" onclick="document.getElementById('mod-delete').classList.remove('active')">[ ABORT ]</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

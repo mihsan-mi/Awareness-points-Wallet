@@ -1,0 +1,126 @@
+:root {
+    --assembly-neon:    #DFFF00;
+    --assembly-cyan:    #00FFFF;
+    --assembly-magenta: #FF00FF;
+    --assembly-void:    #000000;
+    --assembly-white:   #FFFFFF;
+    --font-bold:        'Space Grotesk', sans-serif;
+    --font-heavy:       'JetBrains Mono', monospace;
+    --font-mono:        'Space Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    width: 100%; height: 100vh;
+    background: #000; color: #FFF;
+    font-family: var(--font-bold);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+}
+
+.app-frame {
+    width: 390px; height: 844px; max-height: 100vh;
+    background: var(--assembly-void);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    border: 4px solid #111;
+}
+
+/* ── Interlocking Base CSS ───────────────────────────── */
+.block-stack { flex: 1; display: flex; flex-direction: column; padding: 15px; position: relative; overflow-y: auto; overflow-x: hidden; }
+
+/* General Notched Block */
+.notched-block { 
+    width: 100%; min-height: 120px; position: relative; margin-bottom: -20px; 
+    padding: 30px 20px 20px; color: #000; transition: transform 0.2s cubic-bezier(0.2, 1, 0.3, 1), z-index 0s;
+    cursor: pointer;
+}
+.notched-block:hover { 
+    z-index: 2000 !important; 
+    transform: scale(1.03) translateY(-15px);
+    clip-path: none !important;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    border: 2px solid rgba(255,255,255,0.1);
+}
+.notched-block.trembling { animation: jitter 0.2s infinite; }
+@keyframes jitter { 0%{transform:translate(0)} 25%{transform:translate(1px,-1px)} 50%{transform:translate(-1px,1px)} 100%{transform:translate(0)} }
+
+/* The Puzzle Notch Join */
+.notch-join {
+    position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+    width: 40px; height: 25px; border-radius: 0 0 15px 15px; z-index: 50;
+}
+.notch-socket {
+    position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+    width: 44px; height: 14px; border-radius: 0 0 15px 15px; z-index: 40;
+    background: var(--assembly-void);
+}
+
+/* Corner Metadata */
+.corner-meta { font-family: var(--font-mono); font-size: 0.5rem; font-weight: 700; position: absolute; z-index: 60; opacity: 0.4; pointer-events: none; transition: opacity 0.2s; }
+.notched-block:hover .corner-meta { opacity: 1; }
+.meta-tl { top: 10px; left: 15px; }
+.meta-tr { top: 10px; right: 15px; text-align: right; }
+.meta-br { bottom: 10px; right: 15px; text-align: right; }
+
+/* ── Specific Shards ─────────────────────────────── */
+/* 1. Header (Neon) */
+.shard-header { background: var(--assembly-neon); height: 180px; clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); z-index: 100; color: #000; }
+.shard-header h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -3px; line-height: 0.85; margin: 25px 0 0 0px; }
+.shard-header .logo { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 900; opacity: 0.6; }
+
+/* 2. AP Block (Cyan) */
+.shard-ap { background: var(--assembly-cyan); height: 220px; z-index: 90; clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ap-val { font-size: 5.5rem; font-weight: 900; letter-spacing: -6px; line-height: 1; margin-top: 15px; margin-left: -10px; cursor: pointer; transition: filter 0.3s; }
+.ap-val.blurred { filter: blur(45px); }
+.ap-unit { font-size: 1.5rem; vertical-align: super; letter-spacing: normal; margin-left: -5px; }
+
+/* 3. Action Block (White/Pink Notch) */
+.shard-actions { background: #FFF; min-height: 140px; z-index: 80; clip-path: polygon(0 0, 100% 5%, 100% 95%, 0 100%); display: flex; gap: 10px; }
+.mini-card { flex: 1; padding: 15px; background: rgba(0,0,0,0.05); cursor: pointer; position: relative; }
+.mini-card:hover { background: rgba(0,0,0,0.1); }
+.tag-heavy { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; display: block; opacity: 0.4; }
+.flipper-box { height: 45px; overflow: hidden; position: relative; }
+.slide { position: absolute; inset: 0; display: flex; flex-direction: column; transform: translateY(100%); transition: transform 0.4s steps(4); }
+.slide.active { transform: translateY(0); }
+.flipper-n { font-weight: 900; font-size: 0.85rem; line-height: 1.1; }
+.flipper-v { font-family: var(--font-heavy); font-size: 1rem; color: var(--assembly-magenta); }
+
+/* 4. Threat Shard (Pink) */
+.shard-threats { background: var(--assembly-magenta); min-height: 160px; z-index: 70; clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%); color: #FFF; padding-bottom: 40px; }
+.ribbon-list { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; margin-top: 20px; }
+.ribbon-list::-webkit-scrollbar { display: none; }
+.brutal-node { 
+    flex: 0 0 90px; aspect-ratio: 1; background: #000; color: #FFF;
+    display: flex; align-items: center; justify-content: center;
+    clip-path: circle(50% at 50% 50%); cursor: pointer; transition: transform 0.1s;
+}
+.brutal-node.unread::after { content: "!"; position: absolute; top:5px; right: 10px; color: var(--assembly-magenta); font-weight: 900; font-size: 1.2rem; }
+
+/* 5. Signal Block (White) */
+.shard-signals { background: #FFF; min-height: 250px; z-index: 60; color: #000; padding: 40px 20px; }
+.signal-shard { padding: 20px; border: 4px solid #000; background: #FFF; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%); }
+
+/* ── Overlays & UI Components ─────────────────────────── */
+.icon-btn-brutal { width: 50px; height: 50px; background: #000; border: 4px solid #000; color: #FFF; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 6px 6px 0 #333; }
+.btn-panic { background: #FFF; color: #000; font-weight: 900; font-size: 1.5rem; }
+
+.dimmer { position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.dimmer.active { opacity: 1; pointer-events: auto; }
+.brutal-drawer {
+    position: absolute; bottom: 0; left: 0; right: 0; background: #000; color: #FFF; border-top: 10px solid var(--assembly-neon); height: 90%; z-index: 6000; transform: translateY(100%); transition: transform 0.2s steps(5); display: flex; flex-direction: column;
+}
+.brutal-drawer.active { transform: translateY(0); }
+.drawer-h { padding: 30px; display: flex; justify-content: space-between; border-bottom: 2px solid #222; }
+.drawer-t { font-size: 3rem; font-weight: 900; letter-spacing: -4px; line-height: 0.8; }
+
+.modal { position: absolute; inset:0; z-index: 8000; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; padding: 25px; }
+.modal.active { display: flex; }
+.brutal-modal { background: var(--assembly-neon); color: #000; padding: 40px; width: 100%; border: 6px solid #000; box-shadow: 20px 20px 0 #000; }
+.brutal-field { width: 100%; background: #FFF; border: 4px solid #000; padding: 20px; font-weight: 900; margin: 10px 0 20px; font-size: 1.1rem; }
+.brutal-btn { width: 100%; height: 65px; background: #000; color: #FFF; font-weight: 900; font-size: 1.2rem; cursor: pointer; border: none; text-transform: uppercase; }
+
+/* Micro-Animations (Dystopian) */
+.flicker { animation: text-flicker 0.1s infinite; }
+@keyframes text-flicker { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
